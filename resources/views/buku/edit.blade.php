@@ -16,7 +16,7 @@
         <div class="card shadow-sm">
             <div class="card-body p-4">
                 {{-- TODO 8: Tambahkan atribut enctype="multipart/form-data" pada form di bawah ini --}}
-                <form action="{{ route('buku.update', $buku->id) }}" method="POST">
+                <form action="{{ route('buku.update', $buku->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -65,7 +65,32 @@
                     </div>
 
                     {{-- TODO 8: Tampilkan gambar sampul saat ini ($buku->cover) dan sediakan input file untuk mengganti sampul --}}
+                    <div class="mb-3">
+                        <label for="cover" class="form-label fw-semibold">Sampul Buku</label>
 
+                        @if ($buku->cover)
+                            <div class="mb-2">
+                                <img src="{{ asset('storage/' . $buku->cover) }}"
+                                    alt="Sampul {{ $buku->judul }}"
+                                    class="img-thumbnail"
+                                    style="max-height: 180px;">
+                                <div class="form-text">Sampul saat ini</div>
+                            </div>
+                        @else
+                            <div class="form-text mb-2">Belum ada sampul buku.</div>
+                        @endif
+
+                        <input type="file"
+                            class="form-control @error('cover') is-invalid @enderror"
+                            id="cover"
+                            name="cover"
+                            accept="image/jpeg,image/png,image/jpg">
+                        <div class="form-text">Kosongkan jika tidak ingin mengganti sampul. Format JPG, JPEG, atau PNG (maks. 2 MB).</div>
+                        @error('cover')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    
                     <div class="d-flex justify-content-end gap-2">
                         <a href="{{ route('buku.index') }}" class="btn btn-light border px-4">Batal</a>
                         <button type="submit" class="btn btn-primary px-4">

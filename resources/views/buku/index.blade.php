@@ -72,6 +72,7 @@
                         <th>Judul Buku</th>
                         <th>Penulis</th>
                         <th>Penerbit</th>
+                        <th style="width: 70px;">Sampul</th>
                         <th class="text-center">Tahun</th>
                         <th class="text-center">Stok</th>
                         <th class="text-end pe-3" style="width: 170px;">Aksi</th>
@@ -82,6 +83,17 @@
                         <tr>
                             <td class="ps-3 text-muted">{{ $buku->firstItem() + $index }}</td>
                             {{-- TODO 9: Tampilkan thumbnail sampul buku ($item->cover) jika ada menggunakan asset('storage/' . $item->cover) --}}
+                            <td>
+                                @if ($item->cover)
+                                    <img src="{{ asset('storage/' . $item->cover) }}"
+                                        alt="Sampul {{ $item->judul }}"
+                                        class="rounded object-fit-cover"
+                                        style="width: 45px; height: 60px;">
+                                @else
+                                    <span class="text-muted small">-</span>
+                                @endif
+                            </td>
+
                             <td class="fw-semibold text-dark">{{ $item->judul }}</td>
                             <td>{{ $item->penulis }}</td>
                             <td>{{ $item->penerbit }}</td>
